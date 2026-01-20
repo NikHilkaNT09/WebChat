@@ -17,10 +17,12 @@ int main(){
     m_client.init_asio();
 
     m_client.set_message_handler([](auto ,auto msg){
-        std::cout << tag << msg->get_payload() << std::endl;
+        std::cout << tag << "##### Message from server: "<< msg->get_payload()  << std::endl;
     });
 
-    m_client.set_open_handler(    [&](websocketpp::connection_hdl hdl) {
+    // m_client.listen()
+
+    m_client.set_open_handler([&](websocketpp::connection_hdl hdl) {
 
         std::cout << "Connection opened, sending login...\n";
 
@@ -55,7 +57,7 @@ int main(){
     std::getline(std::cin, text);
 
     m_client.send(conn->get_handle(),
-        json{{"type","message"},{"text",text}}.dump(),
+        json{{"type","message"},{"text",text}, {"toUser", "bob"}}.dump(),
         websocketpp::frame::opcode::text);
     }
 
