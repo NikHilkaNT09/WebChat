@@ -40,13 +40,13 @@ add_executable(Client
     source/chatUi/chatUi.cpp
     source/commModule/commModule.cpp
 )
-add_executable(Client_1 
-    # source/chatUi/chatApp.cpp
-    source/chatUi/chatDestUser.cpp
-    # source/chatUi/chatUi.h
-    source/chatUi/chatUi.cpp
-    source/commModule/commModule.cpp
-)
+# add_executable(Client_1 
+#     # source/chatUi/chatApp.cpp
+#     source/chatUi/chatDestUser.cpp
+#     # source/chatUi/chatUi.h
+#     source/chatUi/chatUi.cpp
+#     source/commModule/commModule.cpp
+# )
 target_include_directories(Client PRIVATE
     ${CMAKE_SOURCE_DIR}/source/libs/websocketpp
     ${CMAKE_SOURCE_DIR}/source/libs/json
@@ -56,12 +56,12 @@ target_link_libraries(Client
     ${wxWidgets_LIBRARIES}
     pthread
 )
-target_include_directories(Client_1 PRIVATE
-    ${CMAKE_SOURCE_DIR}/source/libs/websocketpp
-    ${CMAKE_SOURCE_DIR}/source/libs/json
-)
-target_link_libraries(Client_1
-    PRIVATE
-    ${wxWidgets_LIBRARIES}
-    pthread
-)
+# target_include_directories(Client_1 PRIVATE
+#     ${CMAKE_SOURCE_DIR}/source/libs/websocketpp
+#     ${CMAKE_SOURCE_DIR}/source/libs/json
+# )
+# target_link_libraries(Client_1
+#     PRIVATE
+#     ${wxWidgets_LIBRARIES}
+#     pthread
+# )

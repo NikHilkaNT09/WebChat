@@ -49,27 +49,38 @@ UserCredentials readUsernameFromFile(const std::string& path) {
 class ChatApp : public wxApp {
 public:
     virtual bool OnInit() {
-        UserCredentials cred = readUsernameFromFile(expandUserPath("~/Documents/user.txt"));
+        // UserCredentials cred = readUsernameFromFile(expandUserPath("~/Documents/user.txt"));
+        try{
         Login* login = new Login(
-            [](const std::string& user, const std::string& pass) {
+            [](const std::string& user, const std::string& pass, const std::string& toUser) {
 
                 ChatFrame* frame = new ChatFrame(
                             user,
                             pass,
+                            toUser,
                             [frame](const std::string& msg) {
-                                frame->sendData(msg);
+                                frame->sendMessage(msg);
                                         // std::string user1 = "bob";
 
                             }
                             );
-                std::string user1 = "bob";
-                frame->setToUser(user1);
+                // std::string user1 = "bob";
+                frame->setToUser(toUser);
                 frame->Show(true);
                 frame->executeInitiation();
             }
         );
 
         login->Show(true);
+        }
+        catch (const std::exception& e) {
+        wxMessageBox(e.what(), "Startup Error", wxICON_ERROR);
+        return false;
+    } catch (...) {
+        wxMessageBox("Unknown startup error", "Startup Error", wxICON_ERROR);
+        return false;
+    }
+        
 #if 0
         ChatFrame* frame = new ChatFrame(
                             cred.username,

@@ -55,7 +55,6 @@ void CommModuleServer::broadCast(const json &msg){
                 std::cout << "__pushing data in vector__::" << msg << std::endl;
             }
         }
-
     }
 }
 
@@ -78,7 +77,7 @@ void CommModuleServer::onClose(websocketpp::connection_hdl hdl){
 }
 
 void CommModuleServer::onLogin(const std::string& user, const std::string& pass, websocketpp::connection_hdl hdl) {
-    // onlineUsers[user] = hdl;
+
     if(!users.count(user) || users[user].passWord != pass){
         m_server.send(hdl, R"({"type":"error","messge":"Invalid Login"})", websocketpp::frame::opcode::text);
         return;
@@ -113,7 +112,6 @@ void CommModuleServer::onMessage(websocketpp::connection_hdl hdl, m_masterServer
         onLogin(user, pass, hdl);
 
         return;
-        // broadCast(msg);
     }
 
     if(data[JSON_KEYS::TYPE] == JSON_KEYS::MSG){
