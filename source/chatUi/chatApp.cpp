@@ -1,4 +1,5 @@
 #include "chatUi.h"
+#include "../../source/login/login.h"
 
 #include <fstream>
 #include <string>
@@ -49,17 +50,40 @@ class ChatApp : public wxApp {
 public:
     virtual bool OnInit() {
         UserCredentials cred = readUsernameFromFile(expandUserPath("~/Documents/user.txt"));
+        Login* login = new Login(
+            [](const std::string& user, const std::string& pass) {
+
+                ChatFrame* frame = new ChatFrame(
+                            user,
+                            pass,
+                            [frame](const std::string& msg) {
+                                frame->sendData(msg);
+                                        // std::string user1 = "bob";
+
+                            }
+                            );
+                std::string user1 = "bob";
+                frame->setToUser(user1);
+                frame->Show(true);
+                frame->executeInitiation();
+            }
+        );
+
+        login->Show(true);
+#if 0
         ChatFrame* frame = new ChatFrame(
                             cred.username,
                             cred.password,
                             [frame](const std::string& msg) {
                                 frame->sendData(msg);
                             }
-    );
-        std::string user1 = "bob";
-        frame->setToUser(user1);
-        frame->Show(true);
-        frame->executeInitiation();
+                            );
+#endif
+
+        // std::string user1 = "bob";
+        // frame->setToUser(user1);
+        // frame->Show(true);
+        // frame->executeInitiation();
         
         
         return true;

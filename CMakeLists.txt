@@ -34,6 +34,7 @@ target_link_libraries(server PRIVATE pthread)
 # ---------- GUI CLIENT ----------
 add_executable(Client 
     source/chatUi/chatApp.cpp
+    source/login/login.cpp
     # source/chatUi/chatDestUser.cpp
     # source/chatUi/chatUi.h
     source/chatUi/chatUi.cpp
