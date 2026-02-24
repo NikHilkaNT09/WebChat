@@ -64,7 +64,6 @@ public:
 
                             }
                             );
-                // std::string user1 = "bob";
                 frame->setToUser(toUser);
                 frame->Show(true);
                 frame->executeInitiation();

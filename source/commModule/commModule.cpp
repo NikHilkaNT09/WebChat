@@ -38,19 +38,19 @@ void CommModule::init() {
           if (m_onMessage)
               m_onMessage(payload);
       } catch (...) {
-          std::cout << "Message handling failed\n";
+          std::cout << "__message handling failed\n";
       }
   });
   m_client.set_open_handler([this](websocketpp::connection_hdl conn) {
     hdl = conn;
-    std::cout << m_tag << "Connected: Sending Login..\n";
+    std::cout << m_tag << "__connected: Sending Login..\n";
 
     json login = {{"type", "login"}, {"username", user}, {"password", pass},{"from", user}, {"toUser", m_destUser}};
     m_client.send(hdl, login.dump(), websocketpp::frame::opcode::text);
 
   });
 
-  std::cout << m_tag << "Init Done..\n";
+  std::cout << m_tag << "__init Done..\n";
 }
 
 void CommModule::connect() {
@@ -58,17 +58,17 @@ void CommModule::connect() {
   auto connection = m_client.get_connection(uri, errCode);
 
   if (errCode) {
-    std::cout << m_tag << "Connection Failed: " << errCode.message()
+    std::cout << m_tag << "__connection Failed: " << errCode.message()
               << std::endl;
     return;
   }
 
   m_client.connect(connection);
-  std::cout << m_tag << "Connecting...\n";
+  std::cout << m_tag << "__connecting...\n";
 }
 
 void CommModule::establishComm() {
-  std::cout << m_tag << "Establishing Comms..\n";
+  std::cout << m_tag << "__establishing Comms..\n";
   m_thread = std::thread([this]() { m_client.run(); });
   m_thread.detach();
 }
