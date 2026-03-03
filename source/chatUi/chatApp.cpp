@@ -11,7 +11,7 @@ struct UserCredentials {
 };
 
 #include <cstdlib>
-
+#if 0
 std::string expandUserPath(const std::string& path) {
     if (!path.empty() && path[0] == '~') {
 #ifdef _WIN32
@@ -45,31 +45,42 @@ UserCredentials readUsernameFromFile(const std::string& path) {
 
     return cred;
 }
-
+#endif
 class ChatApp : public wxApp {
 public:
+Login* login = nullptr;
+
     virtual bool OnInit() {
+        std::string sTag = "CA:\t";
         // UserCredentials cred = readUsernameFromFile(expandUserPath("~/Documents/user.txt"));
         try{
-        Login* login = new Login(
-            [](const std::string& user, const std::string& pass, const std::string& toUser) {
-
+        login = new Login(
+            [=](const std::string& user, const std::string& pass, const std::string& toUser) {
+                std::cout << sTag << "__user: " << user << "\t __pass: " << pass << "\n";
                 ChatFrame* frame = new ChatFrame(
                             user,
                             pass,
                             toUser,
                             [frame](const std::string& msg) {
                                 frame->sendMessage(msg);
-                                        // std::string user1 = "bob";
-
                             }
                             );
                 frame->setToUser(toUser);
-                frame->Show(true);
-                frame->executeInitiation();
+
+                frame->setLoginCallBack([=](const std::string res){
+                    if(res == "true"){
+                        frame->Show(true);
+                        login->Show(false);
+                    }
+                });
+
+                // if(frame->getLoginSuccess()){
+                //     login->Hide();
+                // }
+                // frame->Show(true);
+                // frame->executeInitiation();
             }
         );
-
         login->Show(true);
         }
         catch (const std::exception& e) {

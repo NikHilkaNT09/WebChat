@@ -45,14 +45,14 @@ void CommModuleServer::setHandlers(){
 void CommModuleServer::broadCast(const json &msg){
     for(auto &[conn, user]: m_sessions){
         if (msg.contains(JSON_KEYS::TEXT)) {
-            std::cout << m_tag << " >>> " << msg[JSON_KEYS::TEXT] << std::endl;
+            std::cout << m_tag << " >>> " << msg[JSON_KEYS::TEXT] << "\n";
         }
         if(msg.contains(JSON_KEYS::TO_USER) ){
             if( user == msg[JSON_KEYS::TO_USER] && users[user].status == "online")
                 m_server.send(conn, msg.dump(), websocketpp::frame::opcode::text);
             else{
                 offlineMessages[msg[JSON_KEYS::TO_USER]].push_back(msg);
-                std::cout << "__pushing data in vector__::" << msg << std::endl;
+                std::cout << "__pushing data in vector__::" << msg << "\n";
             }
         }
     }
@@ -82,6 +82,7 @@ void CommModuleServer::onLogin(const std::string& user, const std::string& pass,
         m_server.send(hdl, R"({"type":"error","messge":"Invalid Login"})", websocketpp::frame::opcode::text);
         return;
     }
+    m_server.send(hdl, R"({"type":"error","messge":"Login Success"})", websocketpp::frame::opcode::text);
 
     m_sessions[hdl] = user;
     users[user].status = JSON_KEYS::ONLINE;
